@@ -1,0 +1,10 @@
+button {
+    float: right;
+    margin: 10px;
+}
+
+a {
+    font-size: 26px;
+    line-height: 2em;
+    cursor: pointer;
+}

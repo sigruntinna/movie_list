@@ -1,0 +1,33 @@
+label {
+  display: block;
+  font-family: lightFont;
+}
+
+.btn-primary {
+    background-color: #b388ff;
+    border-color: #b388ff;
+}
+
+.btn-primary:hover,
+.btn-primary:active,
+.btn-primary:visited,
+.btn-primary:focus {
+  background-color: #9575cd;
+  border-color: #b388ff;
+}
+
+.nav-link {
+  color: #b388ff;
+}
+
+.nav-link:hover {
+  color: #9575cd;
+}
+
+h4, p, .butt {
+  font-family: lightFont;
+}
+
+input {
+  width: 290px;
+}

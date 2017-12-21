@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<div class="row jumbotron">
+  <div class="col-md-2"></div>
+  <div class="col-md-6">
+    <h2>Notendur</h2>
+  </div>
+  <!-- The create sellers modal opening button -->
+  <div class="col-md-2">
+    <button class="butt btn btn-primary add-user-button" (click)="addUser()">Bæta við notanda</button>
+    <template ngbModalContainer></template>
+  </div>
+  <div class="col-md-2"></div>
+</div>
+
+<div class="row">
+    <div class="col-md-2"></div>
+    <div class="col-md-8">
+        <ul class="collection">
+            <li class="collection-item avatar" *ngFor="let u of users">
+                <app-user
+                    [user]="u">
+                </app-user>
+            </li>
+        </ul>
+    </div>
+    <div class="col-md-2"></div>
+</div>

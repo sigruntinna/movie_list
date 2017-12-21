@@ -1,0 +1,1368 @@
+{
+	"variables": [],
+	"info": {
+		"name": "Johanna's Library API copy copy",
+		"_postman_id": "587306dc-77af-d0cd-d663-ba1576cead81",
+		"description": "JÃ³hanna's (@Efri-BrÃº) Library system for users to loan books, manage their loans and get book recommendations.",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "api",
+			"description": "Folder for api",
+			"item": [
+				{
+					"name": "Get list of all books in the system.",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"if (responseCode.code === 200) {\r",
+									"    tests[\"Successfully got all books - Status code is 200\"] = responseCode.code === 200;\r",
+									"}\r",
+									"\r",
+									"var contentTypeHeaderExists = postman.getResponseHeader(\"Content-Type\");\r",
+									"\r",
+									"tests[\"Content-Type is present\"] = contentTypeHeaderExists;\r",
+									"\r",
+									"if (contentTypeHeaderExists) {\r",
+									"    tests[\"Content-Type is application/json\"] = responseHeaders[\"Content-Type\"].has(\"application/json\");\r",
+									"}"
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "http://localhost:51145/api/books",
+						"method": "GET",
+						"header": [],
+						"body": {},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Add new book to the system",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"if (responseCode.code === 201) {",
+									"    tests[\"Successfully added a book to the API - Status code is 201\"] = responseCode.code === 201;",
+									"}",
+									"else if (responseCode.code === 412) {",
+									"    tests[\"Model state is invalid - Status code is 412\"] = responseCode.code === 412;",
+									"}",
+									"",
+									"tests[\"Content-Type is present\"] = postman.getResponseHeader(\"Content-Type\");",
+									"",
+									"tests[\"Response body contains Game Theory\"] =  responseBody.has(\"Game Theory\");",
+									"",
+									"var jsonData = JSON.parse(responseBody);",
+									"var bookId = jsonData.bookId;",
+									"",
+									"postman.setEnvironmentVariable(\"bookId\", bookId);"
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "http://localhost:51145/api/books",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json-patch+json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"title\": \"Game Theory\",\n    \"authorFirst\": \"John\",\n    \"authorLast\": \"Lewis\",\n    \"dateOfIssue\": \"1992-12-28T00:00:00\",\n    \"isbnNumber\": \"12bs3\"\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Get a book by its id",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"if (responseCode.code === 200) {\r",
+									"    tests[\"Successfully got a book by given ID - Status code is 200\"] = responseCode.code === 200;\r",
+									"}\r",
+									"else if (responseCode.code === 404) {\r",
+									"    tests[\"Book by given ID does not exist in database - Status code is 404\"] = responseCode.code === 404;\r",
+									"}\r",
+									"\r",
+									"var contentTypeHeaderExists = postman.getResponseHeader(\"Content-Type\");\r",
+									"\r",
+									"tests[\"Content-Type is present\"] = contentTypeHeaderExists;\r",
+									"\r",
+									"if (contentTypeHeaderExists) {\r",
+									"    tests[\"Content-Type is application/json\"] = responseHeaders[\"Content-Type\"].has(\"application/json\");\r",
+									"}\r",
+									"\r",
+									"tests[\"Response body contains Game Theory\"] =  responseBody.has(\"Game Theory\");"
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "http://localhost:51145/api/books/{{bookId}}",
+						"method": "GET",
+						"header": [],
+						"body": {},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Updates a book",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"if (responseCode.code === 201) {\r",
+									"    tests[\"Successfully updated a book by given ID - Status code is 201\"] = responseCode.code === 201;\r",
+									"}\r",
+									"else if (responseCode.code === 400) {\r",
+									"    tests[\"Bad request - no json input - Status code is 400\"] = responseCode.code === 400;\r",
+									"}\r",
+									"else if (responseCode.code === 404) {\r",
+									"    tests[\"Book by given ID does not exist in database - Status code is 404\"] = responseCode.code === 404;\r",
+									"}\r",
+									"else if (responseCode.code === 412) {\r",
+									"    tests[\"Model state is invalid - Status code is 412\"] = responseCode.code === 412;\r",
+									"}\r",
+									"\r",
+									"tests[\"Status code is 200\"] = responseCode.code === 200;\r",
+									"\r",
+									"var contentTypeHeaderExists = postman.getResponseHeader(\"Content-Type\");\r",
+									"\r",
+									"tests[\"Content-Type is present\"] = contentTypeHeaderExists;\r",
+									"\r",
+									"if (contentTypeHeaderExists) {\r",
+									"    tests[\"Content-Type is application/json\"] = responseHeaders[\"Content-Type\"].has(\"application/json\");\r",
+									"}\r",
+									"\r",
+									"tests[\"Response body does not contains Game Theory\"] =  !responseBody.has(\"Game Theory\");\r",
+									"\r",
+									"tests[\"Response body contains Game Theory update\"] =  responseBody.has(\"Games Theory update\");"
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "http://localhost:51145/api/books/{{bookId}}",
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json-patch+json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"title\": \"Games Theory update\",\n    \"authorFirst\": \"John\",\n    \"authorLast\": \"Lewis\",\n    \"dateOfIssue\": \"1992-12-28T00:00:00\",\n    \"isbnNumber\": \"12bs3\"\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Get a book by its id after Put",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"if (responseCode.code === 200) {\r",
+									"    tests[\"Successfully got a book by given ID - Status code is 200\"] = responseCode.code === 200;\r",
+									"}\r",
+									"else if (responseCode.code === 404) {\r",
+									"    tests[\"Book by given ID does not exist in database - Status code is 404\"] = responseCode.code === 404;\r",
+									"}\r",
+									"\r",
+									"var contentTypeHeaderExists = postman.getResponseHeader(\"Content-Type\");\r",
+									"\r",
+									"tests[\"Content-Type is present\"] = contentTypeHeaderExists;\r",
+									"\r",
+									"if (contentTypeHeaderExists) {\r",
+									"    tests[\"Content-Type is application/json\"] = responseHeaders[\"Content-Type\"].has(\"application/json\");\r",
+									"}\r",
+									"\r",
+									"tests[\"Response body does not contains Game Theory\"] =  !responseBody.has(\"Game Theory\");\r",
+									"\r",
+									"tests[\"Response body contains Game Theory update\"] =  responseBody.has(\"Games Theory update\");"
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "http://localhost:51145/api/books/{{bookId}}",
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json-patch+json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"title\": \"Games Theory update\",\n    \"authorFirst\": \"John\",\n    \"authorLast\": \"Lewis\",\n    \"dateOfIssue\": \"1992-12-28T00:00:00\",\n    \"isbnNumber\": \"12bs3\"\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Delete book by its id",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"if (responseCode.code === 204) {",
+									"    tests[\"Successful deletion - Status code is 204\"] = responseCode.code === 204;",
+									"}",
+									"else if (responseCode.code === 404) {",
+									"    tests[\"Book by given ID does not exist in database - Status code is 404\"] = responseCode.code === 404;",
+									"}",
+									"",
+									"tests[\"Response body does not contains Game Theory\"] =  !responseBody.has(\"Game Theory\");",
+									"",
+									"postman.clearEnvironmentVariable(\"bookId\");"
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "http://localhost:51145/api/books/{{bookId}}",
+						"method": "DELETE",
+						"header": [],
+						"body": {},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Get a book by its id after Del",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"if (responseCode.code === 200) {",
+									"    tests[\"Successfully got a book by given ID - Status code is 200\"] = responseCode.code === 200;",
+									"}",
+									"else if (responseCode.code === 404) {",
+									"    tests[\"Book by given ID does not exist in database - Status code is 404\"] = responseCode.code === 404;",
+									"}"
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "http://localhost:51145/api/books/{{bookId}}",
+						"method": "GET",
+						"header": [],
+						"body": {},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Get all users to get userid for book review",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"if (responseCode.code === 200) {\r",
+									"    tests[\"Successfully got a users from database - Status code is 200\"] = responseCode.code === 200;\r",
+									"}\r",
+									"\r",
+									"var contentTypeHeaderExists = postman.getResponseHeader(\"Content-Type\");\r",
+									"\r",
+									"tests[\"Content-Type is present\"] = contentTypeHeaderExists;\r",
+									"\r",
+									"if (contentTypeHeaderExists) {\r",
+									"    tests[\"Content-Type is application/json\"] = responseHeaders[\"Content-Type\"].has(\"application/json\");\r",
+									"}\r",
+									"\r",
+									"var jsonData = JSON.parse(responseBody);\r",
+									"var userId = jsonData[0].userId;\r",
+									"\r",
+									"postman.setEnvironmentVariable(\"userId\", userId);"
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "http://localhost:51145/api/users/",
+						"method": "GET",
+						"header": [],
+						"body": {},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Get all books to get bookid for book review",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"if (responseCode.code === 200) {\r",
+									"    tests[\"Successfully got all books - Status code is 200\"] = responseCode.code === 200;\r",
+									"}\r",
+									"\r",
+									"var contentTypeHeaderExists = postman.getResponseHeader(\"Content-Type\");\r",
+									"\r",
+									"tests[\"Content-Type is present\"] = contentTypeHeaderExists;\r",
+									"\r",
+									"if (contentTypeHeaderExists) {\r",
+									"    tests[\"Content-Type is application/json\"] = responseHeaders[\"Content-Type\"].has(\"application/json\");\r",
+									"}\r",
+									"\r",
+									"var jsonData = JSON.parse(responseBody);\r",
+									"var bookId = jsonData[0].bookId;\r",
+									"\r",
+									"postman.setEnvironmentVariable(\"bookId\", bookId);"
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "http://localhost:51145/api/books/",
+						"method": "GET",
+						"header": [],
+						"body": {},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Add a book review to the system by user id and book id for book review tests",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"if (responseCode.code === 201) {\r",
+									"    tests[\"Successfully created a book review - Status code is 201\"] = responseCode.code === 201;\r",
+									"}\r",
+									"else if (responseCode.code === 400) {\r",
+									"    tests[\"Bad request - no JSON body - Status code is 400\"] = responseCode.code === 400;\r",
+									"}\r",
+									"else if (responseCode.code === 404) {\r",
+									"    tests[\"Book or user with given Id does not exist in the database - Status code is 404\"] = responseCode.code === 404;\r",
+									"}\r",
+									"else if (responseCode.code === 412) {\r",
+									"    tests[\"Model state is invalid - Status code is 412\"] = responseCode.code === 412;\r",
+									"}\r",
+									"\r",
+									"var contentTypeHeaderExists = postman.getResponseHeader(\"Content-Type\");\r",
+									"\r",
+									"tests[\"Content-Type is present\"] = contentTypeHeaderExists;\r",
+									"\r",
+									"if (contentTypeHeaderExists) {\r",
+									"    tests[\"Content-Type is application/json\"] = responseHeaders[\"Content-Type\"].has(\"application/json\");\r",
+									"}\r",
+									"\r",
+									"tests[\"Has correct updated text\"] = responseBody.has(\"Bra geggjud bok sku\");\r",
+									""
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "http://localhost:51145/api/users/{{userId}}/reviews/{{bookId}}",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"Rating\": 2,\n  \"Review\": \"Bra geggjud bok sku\"\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Get book reviews",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"tests[\"Status code is 200\"] = responseCode.code === 200;\r",
+									"\r",
+									"var contentTypeHeaderExists = postman.getResponseHeader(\"Content-Type\");\r",
+									"\r",
+									"tests[\"Content-Type is present\"] = contentTypeHeaderExists;\r",
+									"\r",
+									"if (contentTypeHeaderExists) {\r",
+									"    tests[\"Content-Type is application/json\"] = responseHeaders[\"Content-Type\"].has(\"application/json\");\r",
+									"}"
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "http://localhost:51145/api/books/reviews",
+						"method": "GET",
+						"header": [],
+						"body": {},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Get reviews for a book by Id",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"tests[\"Status code is 200\"] = responseCode.code === 200;\r",
+									"\r",
+									"var contentTypeHeaderExists = postman.getResponseHeader(\"Content-Type\");\r",
+									"\r",
+									"tests[\"Content-Type is present\"] = contentTypeHeaderExists;\r",
+									"\r",
+									"if (contentTypeHeaderExists) {\r",
+									"    tests[\"Content-Type is application/json\"] = responseHeaders[\"Content-Type\"].has(\"application/json\");\r",
+									"}\r",
+									""
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "http://localhost:51145/api/books/{{bookId}}/reviews",
+						"method": "GET",
+						"header": [],
+						"body": {},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Get review for a book by Id by a specific user Id",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"tests[\"Status code is 200\"] = responseCode.code === 200;\r",
+									"\r",
+									"var contentTypeHeaderExists = postman.getResponseHeader(\"Content-Type\");\r",
+									"\r",
+									"tests[\"Content-Type is present\"] = contentTypeHeaderExists;\r",
+									"\r",
+									"if (contentTypeHeaderExists) {\r",
+									"    tests[\"Content-Type is application/json\"] = responseHeaders[\"Content-Type\"].has(\"application/json\");\r",
+									"}"
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "http://localhost:51145/api/books/{{bookId}}/reviews/{{userId}}",
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Put review for a book by Id by a specific user Id",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"tests[\"Status code is 200\"] = responseCode.code === 200;\r",
+									"\r",
+									"var contentTypeHeaderExists = postman.getResponseHeader(\"Content-Type\");\r",
+									"\r",
+									"tests[\"Content-Type is present\"] = contentTypeHeaderExists;\r",
+									"\r",
+									"if (contentTypeHeaderExists) {\r",
+									"    tests[\"Content-Type is application/json\"] = responseHeaders[\"Content-Type\"].has(\"application/json\");\r",
+									"}\r",
+									"\r",
+									"tests[\"Response body contains review that sais super cool\"] =  responseBody.has(\"super cool\");"
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "http://localhost:51145/api/books/{{bookId}}/reviews/{{userId}}",
+						"method": "PUT",
+						"header": [
+							{
+								"description": "",
+								"key": "Content-Type",
+								"value": "application/json-patch+json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"rating\": 3,\n\t\"review\": \"super cool\"\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Delete a review for a book by Id by a specific user Id",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"tests[\"Successful deletion, status code is 204\"] = responseCode.code === 204;",
+									"",
+									"tests[\"Response body contains review that sais super cool\"] =  !responseBody.has(\"super cool\");",
+									"",
+									"postman.clearEnvironmentVariable(\"bookId\");",
+									"postman.clearEnvironmentVariable(\"userId\");"
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "http://localhost:51145/api/books/{{bookId}}/reviews/{{userId}}",
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Get all users, or get users that have outstanding bookloans on a given date.",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"tests[\"Status code is 200\"] = responseCode.code === 200;\r",
+									"\r",
+									"var contentTypeHeaderExists = postman.getResponseHeader(\"Content-Type\");\r",
+									"\r",
+									"tests[\"Content-Type is present\"] = contentTypeHeaderExists;\r",
+									"\r",
+									"if (contentTypeHeaderExists) {\r",
+									"    tests[\"Content-Type is application/json\"] = responseHeaders[\"Content-Type\"].has(\"application/json\");\r",
+									"}"
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "http://localhost:51145/api/users",
+						"method": "GET",
+						"header": [
+							{
+								"description": "",
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"description": "LoanDuration parameter takes in a integer (nr of days) and returns users with loans that have been outstanding for equal or more than the amount of days.<br />\r\nLoanDate parameter takes in a date format (YYYY-MM-DD), example: 2017-10-28, returns users with books loaned on that date.<br />\r\nDuration and date can be used together to return users with books loaned on a specific date that have been outstanding for a specified amount of days.<br />\r\nIf both LoanDuration and LoanDate are left blank, returns all users."
+					},
+					"response": []
+				},
+				{
+					"name": "Add a new user.",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"tests[\"Status code is 201\"] = responseCode.code === 201;",
+									"",
+									"var contentTypeHeaderExists = postman.getResponseHeader(\"Content-Type\");",
+									"",
+									"tests[\"Content-Type is present\"] = contentTypeHeaderExists;",
+									"",
+									"if (contentTypeHeaderExists) {",
+									"    tests[\"Content-Type is application/json\"] = responseHeaders[\"Content-Type\"].has(\"application/json\");",
+									"}",
+									"",
+									"tests[\"Has correct updated text = Haskolinn i Reykjavik\"] = ",
+									"  responseBody.has(\"Haskolinn i Reykjavik\");",
+									"  ",
+									"var jsonData = JSON.parse(responseBody);",
+									"var userId = jsonData.userId;",
+									"",
+									"postman.setEnvironmentVariable(\"userId\", userId);"
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "http://localhost:51145/api/users",
+						"method": "POST",
+						"header": [
+							{
+								"description": "",
+								"key": "Accept",
+								"value": "application/json"
+							},
+							{
+								"description": "",
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"firstName\": \"Johanna\",\n    \"lastName\": \"Maria\",\n    \"address\": \"Haskolinn i Reykjavik\",\n    \"email\": \"johanna@ru.is\"\n}"
+						},
+						"description": "Sample request:\r\n            \r\n    POST /api/users\r\n    {\r\n        \"firstName\": \"Sherlock\",\r\n        \"lastName\": \"Holmes\",\r\n        \"address\": \"221B Baker Street\",\r\n        \"email\": \"drwatson@holmes.com\"\r\n    }"
+					},
+					"response": []
+				},
+				{
+					"name": "Get a single user by ID.",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"tests[\"Status code is 200\"] = responseCode.code === 200;\r",
+									"\r",
+									"var contentTypeHeaderExists = postman.getResponseHeader(\"Content-Type\");\r",
+									"\r",
+									"tests[\"Content-Type is present\"] = contentTypeHeaderExists;\r",
+									"\r",
+									"if (contentTypeHeaderExists) {\r",
+									"    tests[\"Content-Type is application/json\"] = responseHeaders[\"Content-Type\"].has(\"application/json\");\r",
+									"}\r",
+									"tests[\"Has correct updated text\"] = \r",
+									"    responseBody.has(\"Johanna\");    \r",
+									"    responseBody.has(\"Maria\");    \r",
+									"    responseBody.has(\"Haskolinn i Reykjavik\");\r",
+									"    responseBody.has(\"johanna@ru.is\");  "
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "http://localhost:51145/api/users/{{userId}}",
+						"method": "GET",
+						"header": [
+							{
+								"description": "",
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"description": "ID is an integer value"
+					},
+					"response": []
+				},
+				{
+					"name": "Edit user by ID",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"tests[\"Status code is 200\"] = responseCode.code === 200;\r",
+									"\r",
+									"var contentTypeHeaderExists = postman.getResponseHeader(\"Content-Type\");\r",
+									"\r",
+									"tests[\"Content-Type is present\"] = contentTypeHeaderExists;\r",
+									"\r",
+									"if (contentTypeHeaderExists) {\r",
+									"    tests[\"Content-Type is application/json\"] = responseHeaders[\"Content-Type\"].has(\"application/json\");\r",
+									"}\r",
+									"tests[\"Has correct updated text\"] = \r",
+									"    responseBody.has(\"Unnur\");    \r",
+									"    responseBody.has(\"Sól\");    \r",
+									"    responseBody.has(\"Haskolinn i Reykjavik\");\r",
+									"    responseBody.has(\"unnur@ru.is\");    "
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "http://localhost:51145/api/users/{{userId}}",
+						"method": "PUT",
+						"header": [
+							{
+								"description": "",
+								"key": "Accept",
+								"value": "application/json"
+							},
+							{
+								"description": "",
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n        \"firstName\": \"Unnur\",\n        \"lastName\": \"Sól\",\n        \"address\": \"Haskolinn i Reykjavik\",\n        \"email\": \"unnur@ru.is\"\n}"
+						},
+						"description": "Sample request:\r\n            \r\n    PUT /api/users/{userId}\r\n    {\r\n        \"firstName\": \"Sherlock\",\r\n        \"lastName\": \"Holmes\",\r\n        \"address\": \"221B Baker Street\",\r\n        \"email\": \"drwatson@holmes.com\"\r\n    }"
+					},
+					"response": []
+				},
+				{
+					"name": "Delete a single user by ID",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"tests[\"User was deleted, status code is 204\"] = responseCode.code === 204;\r",
+									"\r",
+									"postman.clearEnvironmentVariable(\"userId\");"
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "http://localhost:51145/api/users/{{userId}}",
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Get all users to get userid",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"tests[\"Status code is 200\"] = responseCode.code === 200;\r",
+									"\r",
+									"var contentTypeHeaderExists = postman.getResponseHeader(\"Content-Type\");\r",
+									"\r",
+									"tests[\"Content-Type is present\"] = contentTypeHeaderExists;\r",
+									"\r",
+									"if (contentTypeHeaderExists) {\r",
+									"    tests[\"Content-Type is application/json\"] = responseHeaders[\"Content-Type\"].has(\"application/json\");\r",
+									"}\r",
+									"\r",
+									"var jsonData = JSON.parse(responseBody);\r",
+									"var userId = jsonData[0].userId;\r",
+									"\r",
+									"postman.setEnvironmentVariable(\"userId\", userId);"
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "http://localhost:51145/api/users/",
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Get all books to get bookid",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"tests[\"Status code is 200\"] = responseCode.code === 200;\r",
+									"\r",
+									"var contentTypeHeaderExists = postman.getResponseHeader(\"Content-Type\");\r",
+									"\r",
+									"tests[\"Content-Type is present\"] = contentTypeHeaderExists;\r",
+									"\r",
+									"if (contentTypeHeaderExists) {\r",
+									"    tests[\"Content-Type is application/json\"] = responseHeaders[\"Content-Type\"].has(\"application/json\");\r",
+									"}\r",
+									"\r",
+									"var jsonData = JSON.parse(responseBody);\r",
+									"var bookId = jsonData[0].bookId;\r",
+									"\r",
+									"postman.setEnvironmentVariable(\"bookId\", bookId);"
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "http://localhost:51145/api/books/",
+						"method": "GET",
+						"header": [],
+						"body": {},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Adds a book loan to the system by user id and book id.",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"if (responseCode.code === 200) {\r",
+									"    tests[\"You successfully loaned a book - Status code is 200\"] = responseCode.code === 200;\r",
+									"}\r",
+									"else if (responseCode.code === 404) {\r",
+									"    tests[\"This book has already been loaned and cannot be loaned again - Status code is 404\"] = responseCode.code === 404;\r",
+									"}\r",
+									"\r",
+									"\r",
+									"var contentTypeHeaderExists = postman.getResponseHeader(\"Content-Type\");\r",
+									"\r",
+									"tests[\"Content-Type is present\"] = contentTypeHeaderExists;\r",
+									"\r",
+									"if (contentTypeHeaderExists) {\r",
+									"    tests[\"Content-Type is application/json\"] = responseHeaders[\"Content-Type\"].has(\"application/json\");\r",
+									"}"
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "http://localhost:51145/api/users/{{userId}}/books/{{bookId}}",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"dateOfLoan\":\"2016-12-18T00:00:00\"\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Get all books that a user (ID) has currently on.",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"tests[\"Status code is 200\"] = responseCode.code === 200;\r",
+									"\r",
+									"var contentTypeHeaderExists = postman.getResponseHeader(\"Content-Type\");\r",
+									"\r",
+									"tests[\"Content-Type is present\"] = contentTypeHeaderExists;\r",
+									"\r",
+									"if (contentTypeHeaderExists) {\r",
+									"    tests[\"Content-Type is application/json\"] = responseHeaders[\"Content-Type\"].has(\"application/json\");\r",
+									"}"
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "http://localhost:51145/api/users/{{userId}}/books",
+						"method": "GET",
+						"header": [
+							{
+								"description": "",
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"body": {},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Get a single bookloan",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"tests[\"Status code is 200\"] = responseCode.code === 200;\r",
+									"\r",
+									"var contentTypeHeaderExists = postman.getResponseHeader(\"Content-Type\");\r",
+									"\r",
+									"tests[\"Content-Type is present\"] = contentTypeHeaderExists;\r",
+									"\r",
+									"if (contentTypeHeaderExists) {\r",
+									"    tests[\"Content-Type is application/json\"] = responseHeaders[\"Content-Type\"].has(\"application/json\");\r",
+									"}\r",
+									""
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "http://localhost:51145/api/users/{{userId}}/books/{{bookId}}",
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Put book by id to a user id",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"tests[\"Status code is 200\"] = responseCode.code === 200;\r",
+									"\r",
+									"var contentTypeHeaderExists = postman.getResponseHeader(\"Content-Type\");\r",
+									"\r",
+									"tests[\"Content-Type is present\"] = contentTypeHeaderExists;\r",
+									"\r",
+									"if (contentTypeHeaderExists) {\r",
+									"    tests[\"Content-Type is application/json\"] = responseHeaders[\"Content-Type\"].has(\"application/json\");\r",
+									"}\r",
+									"\r",
+									"// tests[\"Has correct updated text = 2017-08-09T00:00:00\"] = responseBody.has(\"2017-08-09T00:00:00\");    "
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "http://localhost:51145/api/users/{{userId}}/books/{{bookId}}",
+						"method": "PUT",
+						"header": [
+							{
+								"description": "",
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"DateOfLoan\": \"2017-08-09T00:00:00\",\n\t\"DateOfReturn\": \"2017-09-09T00:00:00\"\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Delete bookloan connection",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"tests[\"Status code is 204\"] = responseCode.code === 204;\r",
+									"\r",
+									"postman.clearEnvironmentVariable(\"bookId\");\r",
+									"postman.clearEnvironmentVariable(\"userId\");"
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "http://localhost:51145/api/users/{{userId}}/books/{{bookId}}",
+						"method": "DELETE",
+						"header": [],
+						"body": {},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Get all users to get userid for review",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"tests[\"Status code is 200\"] = responseCode.code === 200;\r",
+									"\r",
+									"var contentTypeHeaderExists = postman.getResponseHeader(\"Content-Type\");\r",
+									"\r",
+									"tests[\"Content-Type is present\"] = contentTypeHeaderExists;\r",
+									"\r",
+									"if (contentTypeHeaderExists) {\r",
+									"    tests[\"Content-Type is application/json\"] = responseHeaders[\"Content-Type\"].has(\"application/json\");\r",
+									"}\r",
+									"\r",
+									"var jsonData = JSON.parse(responseBody);\r",
+									"var userId = jsonData[0].userId;\r",
+									"\r",
+									"postman.setEnvironmentVariable(\"userId\", userId);"
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "http://localhost:51145/api/users/",
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Get all books to get bookid for review",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"tests[\"Status code is 200\"] = responseCode.code === 200;\r",
+									"\r",
+									"var contentTypeHeaderExists = postman.getResponseHeader(\"Content-Type\");\r",
+									"\r",
+									"tests[\"Content-Type is present\"] = contentTypeHeaderExists;\r",
+									"\r",
+									"if (contentTypeHeaderExists) {\r",
+									"    tests[\"Content-Type is application/json\"] = responseHeaders[\"Content-Type\"].has(\"application/json\");\r",
+									"}\r",
+									"\r",
+									"var jsonData = JSON.parse(responseBody);\r",
+									"var bookId = jsonData[0].bookId;\r",
+									"\r",
+									"postman.setEnvironmentVariable(\"bookId\", bookId);"
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "http://localhost:51145/api/books/",
+						"method": "GET",
+						"header": [],
+						"body": {},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Add a book review to the system by user id and book id",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"tests[\"Status code is 200\"] = responseCode.code === 200;\r",
+									"\r",
+									"var contentTypeHeaderExists = postman.getResponseHeader(\"Content-Type\");\r",
+									"\r",
+									"tests[\"Content-Type is present\"] = contentTypeHeaderExists;\r",
+									"\r",
+									"if (contentTypeHeaderExists) {\r",
+									"    tests[\"Content-Type is application/json\"] = responseHeaders[\"Content-Type\"].has(\"application/json\");\r",
+									"}\r",
+									"\r",
+									"tests[\"Has correct updated text\"] = responseBody.has(\"Bra geggjud bok sku\");\r",
+									""
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "http://localhost:51145/api/users/{{userId}}/reviews/{{bookId}}",
+						"method": "POST",
+						"header": [
+							{
+								"description": "",
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"Rating\": 2,\n  \"Review\": \"Bra geggjud bok sku\"\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Get all books that a user (ID) has reviewed.",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"tests[\"Status code is 200\"] = responseCode.code === 200;\r",
+									"\r",
+									"var contentTypeHeaderExists = postman.getResponseHeader(\"Content-Type\");\r",
+									"\r",
+									"tests[\"Content-Type is present\"] = contentTypeHeaderExists;\r",
+									"\r",
+									"if (contentTypeHeaderExists) {\r",
+									"    tests[\"Content-Type is application/json\"] = responseHeaders[\"Content-Type\"].has(\"application/json\");\r",
+									"}"
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "http://localhost:51145/api/users/{{userId}}/reviews",
+						"method": "GET",
+						"header": [],
+						"body": {},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Get a specific review that a user has made",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"tests[\"Status code is 200\"] = responseCode.code === 200;\r",
+									"\r",
+									"var contentTypeHeaderExists = postman.getResponseHeader(\"Content-Type\");\r",
+									"\r",
+									"tests[\"Content-Type is present\"] = contentTypeHeaderExists;\r",
+									"\r",
+									"if (contentTypeHeaderExists) {\r",
+									"    tests[\"Content-Type is application/json\"] = responseHeaders[\"Content-Type\"].has(\"application/json\");\r",
+									"}\r",
+									""
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "http://localhost:51145/api/users/{{userId}}/reviews/{{bookId}}",
+						"method": "GET",
+						"header": [],
+						"body": {},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Change a review for a specific book by user",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"tests[\"Status code is 200\"] = responseCode.code === 200;\r",
+									"\r",
+									"var contentTypeHeaderExists = postman.getResponseHeader(\"Content-Type\");\r",
+									"\r",
+									"tests[\"Content-Type is present\"] = contentTypeHeaderExists;\r",
+									"\r",
+									"if (contentTypeHeaderExists) {\r",
+									"    tests[\"Content-Type is application/json\"] = responseHeaders[\"Content-Type\"].has(\"application/json\");\r",
+									"}\r",
+									"\r",
+									"tests[\"Response body contains review that sais super cool\"] =  responseBody.has(\"super cool\");"
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "http://localhost:51145/api/users/{{userId}}/reviews/{{bookId}}",
+						"method": "PUT",
+						"header": [
+							{
+								"description": "",
+								"key": "Content-Type",
+								"value": "application/json-patch+json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"rating\": 3,\n\t\"review\": \"super cool\"\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Remove specific book review from specific user",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"tests[\"Status code is 204\"] = responseCode.code === 204;",
+									"",
+									"postman.clearEnvironmentVariable(\"bookId\");",
+									"postman.clearEnvironmentVariable(\"userId\");"
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "http://localhost:51145/api/users/{{userId}}/reviews/{{bookId}}",
+						"method": "DELETE",
+						"header": [],
+						"body": {},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Get all users to get userid for recommendation",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"tests[\"Status code is 200\"] = responseCode.code === 200;\r",
+									"\r",
+									"var contentTypeHeaderExists = postman.getResponseHeader(\"Content-Type\");\r",
+									"\r",
+									"tests[\"Content-Type is present\"] = contentTypeHeaderExists;\r",
+									"\r",
+									"if (contentTypeHeaderExists) {\r",
+									"    tests[\"Content-Type is application/json\"] = responseHeaders[\"Content-Type\"].has(\"application/json\");\r",
+									"}\r",
+									"\r",
+									"var jsonData = JSON.parse(responseBody);\r",
+									"var userId = jsonData[0].userId;\r",
+									"\r",
+									"postman.setEnvironmentVariable(\"userId\", userId);"
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "http://localhost:51145/api/users/",
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Get all recommendations for user",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"tests[\"Status code is 200\"] = responseCode.code === 200;\r",
+									"\r",
+									"var contentTypeHeaderExists = postman.getResponseHeader(\"Content-Type\");\r",
+									"\r",
+									"tests[\"Content-Type is present\"] = contentTypeHeaderExists;\r",
+									"\r",
+									"if (contentTypeHeaderExists) {\r",
+									"    tests[\"Content-Type is application/json\"] = responseHeaders[\"Content-Type\"].has(\"application/json\");\r",
+									"}\r",
+									"// tests[\"Has correct updated text\"] = \r",
+									"//     responseBody.has(\"User-friendly contextually-based knowledge user\");    \r",
+									"//     responseBody.has(\"Dionysus Ramsier\");\r",
+									"//     responseBody.has(1);\r",
+									"//     responseBody.has(2);\r",
+									"\r",
+									"postman.clearEnvironmentVariable(\"userId\");\r",
+									""
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "http://localhost:51145/api/users/{{userId}}/recommendation",
+						"method": "GET",
+						"header": [],
+						"body": {},
+						"description": ""
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}

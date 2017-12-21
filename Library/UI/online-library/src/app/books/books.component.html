@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<div class="row jumbotron">
+  <div class="col-md-2"></div>
+  <div class="col-md-6">
+    <h2>Bækur</h2>
+  </div>
+  <!-- The create sellers modal opening button -->
+  <div class="col-md-2">
+    <button class="butt btn btn-primary add-book-button" (click)="addBook()">Bæta við bók</button>
+    <template ngbModalContainer></template>
+  </div>
+  <div class="col-md-2"></div>
+</div>
+
+<div class="row">
+    <div class="col-md-2"></div>
+    <div class="col-md-8">
+        <ul class="collection">
+            <li class="collection-item avatar" *ngFor="let b of books">
+                <app-book
+                    [book]="b">
+                </app-book>
+            </li>
+        </ul>
+    </div>
+    <div class="col-md-2"></div>
+</div>

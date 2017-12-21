@@ -1,0 +1,8 @@
+<!DOCTYPE html>
+<div *ngIf="user">
+    <a (click)="onVisitUserDetails(user)">
+        {{user.fullName}}
+    </a>
+    <button type="button" class="btn red lighten-2" (click)="deleteUserById(user.userId)">Eyða</button>
+    <button type="button" class="btn" (click)="updateUserById(user.userId)">Breyta</button>
+</div>

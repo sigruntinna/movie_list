@@ -1,0 +1,12 @@
+<!DOCTYPE html>
+<ol class="breadcrumb">
+  <li class="breadcrumb-item"><a href="/users">Notendur</a></li>
+  <li class="breadcrumb-item active">{{firstName}} {{lastName}}</li>
+</ol>
+<ul class="list-group">
+  <li class="list-group-item">Notandi: {{firstName}} {{lastName}}</li>
+  <li class="list-group-item">Heimilisfang: {{address}}</li>
+  <li class="list-group-item">Netfang: {{email}}</li>
+</ul>
+<button type="button" class="btn red lighten-2" (click)="deleteUserById(userId)">Eyða</button>
+<button type="button" class="btn" (click)="updateUserById(userId)">Breyta</button>

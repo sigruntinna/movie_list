@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<nav>
+    <div class="nav-wrapper">
+      <a href="#" class="brand-logo center">{{title}}</a>
+      <ul id="nav-mobile" class="left hide-on-med-and-down">
+        <li><a (click)="onVisitBooks()">Bækur</a></li>
+        <li><a (click)="onVisitUsers()">Notendur</a></li>
+      </ul>
+    </div>
+</nav>
+
+<main>
+    <router-outlet></router-outlet>
+</main>
+
+<footer class="page-footer">
+  <div class="container">
+    <div class="row">
+      <div class="col l6 s12">
+        <h5 class="white-text">Rafrænt Bókasafn</h5>
+        <p class="grey-text text-lighten-4">Ég elska að lána bækur.</p>
+      </div>
+      <div class="col l4 offset-l2 s12">
+        <h5 class="white-text">HÖFUNDAR</h5>
+        <ul>
+          <li><a class="grey-text text-lighten-3" href="mailto:birkirb15@ru.is?Subject=You%20are%20awesome">Birkir Brynjarsson</a></li>
+          <li><a class="grey-text text-lighten-3" href="mailto:johannas15@ru.is?Subject=You%20are%20awesome">Jóhanna María Svövudóttr</a></li>
+          <li><a class="grey-text text-lighten-3" href="mailto:sigrung15@ru.is?Subject=You%20are%20awesome">Sigrún Tinna Gissurardóttir</a></li>
+          <li><a class="grey-text text-lighten-3" href="mailto:unnuri15@ru.is?Subject=You%20are%20awesome">Unnur Sól Ingimarsdóttir</a></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <div class="footer-copyright">
+    <div class="container">
+    © 2017 Copyright Rafrænt Bókasafn
+    <a class="grey-text text-lighten-4 right" href="#!">More Links</a>
+    </div>
+  </div>
+</footer>

@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<ol class="breadcrumb">
+  <li class="breadcrumb-item"><a href="/books">Bækur</a></li>
+  <li class="breadcrumb-item active">{{title}}</li>
+</ol>
+<ul class="list-group">
+  <li class="list-group-item">Titill: {{title}}</li>
+  <li class="list-group-item">Höfundur: {{authorFirst}} {{authorLast}}</li>
+  <li class="list-group-item">ISBN: {{isbnNumber}}</li>
+  <li class="list-group-item">Dagsetning: {{dateOfIssue}}</li>
+</ul>
+<button type="button" class="btn red lighten-2" (click)="deleteBookById(bookId)">Eyða</button>
+<button type="button" class="btn" (click)="updateBookById(bookId)">Breyta</button>

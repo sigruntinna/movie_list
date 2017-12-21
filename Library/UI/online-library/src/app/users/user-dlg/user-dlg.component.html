@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<div class="modal-header">
+  <h4 class="modal-title">Notandi</h4>
+  <button type="button" class="close" aria-label="Close" (click)="onCancel()">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+
+<form (ngSubmit)="onOk()">
+  <div class="modal-body">
+
+    <div class="form-group">
+      <label for="firstName">Fornafn notanda: </label>
+      <input [(ngModel)]="user.firstName" autofocus
+      required minlength="1" maxlength="50" name="firstName"
+      placeholder="Sláðu inn fornafnið þitt hér"/>
+    </div>
+
+    <div class="form-group">
+      <label for="lastName">Eftirnafn notanda: </label>
+      <input [(ngModel)]="user.lastName" autofocus
+      required minlength="1" maxlength="50" name="lastName"
+      placeholder="Sláðu inn eftirnafnið þitt hér"/>
+    </div>
+
+    <div class="form-group">
+      <label for="address">Heimilisfang: </label>
+      <input [(ngModel)]="user.address" name="address"
+      placeholder="Sláðu inn heimilisfangið þitt hér"/>
+    </div>
+    <div class="form-group">
+      <label for="email">Netfang: </label>
+      <input [(ngModel)]="user.email" name="email"
+      placeholder="Sláðu inn netfangið þitt hér"/>
+    </div>
+
+  </div>
+
+  <div class="modal-footer">
+    <button type="button" class="btn btn-secondary butt" (click)="onCancel()">Hætta við</button>
+    <button type="submit" class="btn btn-success butt">Samþykkja</button>
+  </div>
+</form>

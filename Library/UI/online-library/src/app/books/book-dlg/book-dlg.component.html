@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<div class="modal-header">
+  <h4 class="modal-title">Bók</h4>
+  <button type="button" class="close" aria-label="Close" (click)="onCancel()">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+
+<form (ngSubmit)="onOk()">
+  <div class="modal-body">
+
+    <div class="form-group">
+      <label for="title">Titill bókar: </label>
+      <input [(ngModel)]="book.title" autofocus
+      required minlength="1" maxlength="50" name="title"
+      placeholder="Sláðu inn titil bókarinnar hér"/>
+    </div>
+
+    <div class="form-group">
+      <label for="authorFirst">Fornafn höfundar: </label>
+      <input [(ngModel)]="book.authorFirst" autofocus
+      required minlength="1" maxlength="50" name="authorFirst"
+      placeholder="Sláðu inn fornafn höfundar hér"/>
+    </div>
+
+    <div class="form-group">
+      <label for="authorLast">Eftirnafn höfundar: </label>
+      <input [(ngModel)]="book.authorLast"
+      required minlength="1" maxlength="50" name="authorLast"
+      placeholder="Sláðu inn eftirnafn höfundar hér"/>
+    </div>
+
+    <div class="form-group">
+      <label for="dateOfIssue">Útgáfudagur (DD/MM/YYYY): </label>
+      <input [(ngModel)]="book.dateOfIssue" name="dateOfIssue"
+      placeholder="Sláðu inn útgáfudag bókarinnar hér"/>
+    </div>
+
+    <div class="form-group">
+      <label for="isbnNumber">ISBN númer: </label>
+      <input [(ngModel)]="book.isbnNumber"
+      required minlength="1" maxlength="50" name="isbnNumber"
+      placeholder="Sláðu inn ISBN númer bókarinnar hér"/>
+    </div>
+
+  </div>
+
+  <div class="modal-footer">
+    <button type="button" class="btn btn-secondary butt" (click)="onCancel()">Hætta við</button>
+    <button type="submit" class="btn btn-success butt">Samþykkja</button>
+  </div>
+</form>
