@@ -1,0 +1,24 @@
+<div class="container color-dark">
+  <div class="col">
+    <p>Add a movie you want to watch</p>
+  </div>
+  <div class="col">
+    <p>Movies ({{ itemCount }})</p>
+  </div>
+</div>
+<div class="container color-light">
+  <div class="col">
+    <p class="sm">Use this form to add a new movie you want to watch</p>
+    <form>
+      <input type="text" class="txt" name="movie-name" placeholder="Write a movie name" [(ngModel)]="movieText"/>
+      <input type="text" class="txt" name="movie-link" placeholder="IMDB link" [(ngModel)]="movieLink"/>
+      <input type="submit" class="btn-green" value="Add Movie" (click)="addMovie()"/>
+    </form>
+  </div>
+  <div class="col">
+    <p class="list-container" *ngFor="let movie of movies">
+        <a href="{{ movie[1] }}">{{ movie[0] }}</a>
+    </p>
+  </div>
+</div>
+
