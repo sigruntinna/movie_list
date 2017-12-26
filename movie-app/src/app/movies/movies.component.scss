@@ -22,13 +22,22 @@ input.txt {
     margin-bottom: 2em;
 }
 
-input.btn-green {
+input.btn-add {
     border: 0;
     display: block;
     padding: 1em 3em;
     background: #455a64;
     color: #fff;
     margin-bottom: 1em;
+    cursor: pointer;
+}
+
+.btn-remove {
+    border: 0;
+    float: right;
+    padding: .2em 1em;
+    background: #455a64;
+    color: #fff;
     cursor: pointer;
 }
 
