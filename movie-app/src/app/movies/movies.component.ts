@@ -38,13 +38,13 @@ export class MoviesComponent implements OnInit {
   constructor() { }
 
   ngOnInit() {
-    this.itemCount = this.movies.length;
     this.movies.push(["Get Out (2017)", "http://www.imdb.com/title/tt5052448/"],
                      ["Lady Bird (2017)", "http://www.imdb.com/title/tt4925292/"],
                      ["The Big Sick (2017)", "http://www.imdb.com/title/tt5462602/"],
                      ["Coco (2017)", "http://www.imdb.com/title/tt2380307/"],
                      ["The Room (2003)", "http://www.imdb.com/title/tt0368226/"],
-                     ["The Disaster Artist (2017)", "http://www.imdb.com/title/tt3521126/?ref_=tt_rec_tt"])
+                     ["The Disaster Artist (2017)", "http://www.imdb.com/title/tt3521126/?ref_=tt_rec_tt"]);
+    this.itemCount = this.movies.length;
   }
 
   addMovie() {
