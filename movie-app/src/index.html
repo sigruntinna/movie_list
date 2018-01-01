@@ -20,6 +20,25 @@
   </script>
 </head>
 <body>
+  <h1 id="bigOne"></h1>
   <app-root></app-root>
+  
+  <script src="https://www.gstatic.com/firebasejs/4.8.1/firebase.js"></script>
+  <script>
+    // Initialize Firebase
+    var config = {
+      apiKey: "AIzaSyDckDduj9IKEVEZ2-lePpaPcll0L4pv-0w",
+      authDomain: "movie-list-of-love.firebaseapp.com",
+      databaseURL: "https://movie-list-of-love.firebaseio.com",
+      projectId: "movie-list-of-love",
+      storageBucket: "movie-list-of-love.appspot.com",
+      messagingSenderId: "39171561781"
+    };
+    firebase.initializeApp(config);
+
+    var bigOne = document.getElementById('bigOne');
+    var dbRef = firebase.database().ref().child('text');
+    dbRef.on('value', snap => bigOne.innerText = snap.val());
+  </script>
 </body>
 </html>
