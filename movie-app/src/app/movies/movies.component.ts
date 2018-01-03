@@ -43,7 +43,8 @@ export class MoviesComponent implements OnInit {
                      ["The Big Sick (2017)", "http://www.imdb.com/title/tt5462602/"],
                      ["Coco (2017)", "http://www.imdb.com/title/tt2380307/"],
                      ["The Room (2003)", "http://www.imdb.com/title/tt0368226/"],
-                     ["The Disaster Artist (2017)", "http://www.imdb.com/title/tt3521126/?ref_=tt_rec_tt"]);
+                     ["The Disaster Artist (2017)", "http://www.imdb.com/title/tt3521126/?ref_=tt_rec_tt"],
+                     ["Silver Lining Playbook (2012)", "http://www.imdb.com/title/tt1045658/?ref_=nv_sr_1"]);
     this.itemCount = this.movies.length;
   }
 
